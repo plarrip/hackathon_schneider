@@ -6,7 +6,7 @@ import os
 def load_data(file_path):
     # TODO: Load data from CSV file
 
-    files = [os.path.join(f".\{file_path}", file) for file in os.listdir(f"{file_path}") if file.startswith("gen_") or file.startswith("load_")]
+    files = [os.path.join(f"./{file_path}", file) for file in os.listdir(f"{file_path}") if file.startswith("gen_") or file.startswith("load_")]
 
     files_df = pd.DataFrame()
 
