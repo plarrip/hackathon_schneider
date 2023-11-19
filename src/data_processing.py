@@ -73,7 +73,7 @@ def clean_data(df: pd.DataFrame):
 def save_data(df: pd.DataFrame, output_file):
     # TODO: Save processed data to a CSV file
     # Ordenar el dataframe por la fecha de creación
-    df = df.sort_values(by='creation_date')
+    df.sort_values(by=['StartTime'], inplace=True)
 
     # Calcular el 80% del número de filas
     n_rows = len(df)
@@ -99,16 +99,14 @@ def parse_arguments():
     parser.add_argument(
         '--output_file', 
         type=str, 
-        default='data/processed_data.csv', 
+        default='data/processed_data_', 
         help='Path to save the processed data'
     )
     return parser.parse_args()
 
 def main(input_file, output_file):
     df = load_data(input_file)
-    print(df)
     df_clean = clean_data(df)
-    print(df_clean)
     # df_processed = preprocess_data(df_clean)
     save_data(df_clean, output_file)
 
