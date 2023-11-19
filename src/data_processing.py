@@ -16,10 +16,31 @@ def load_data(file_path):
 
     return files_df
 
-# def clean_data(df):
-#     # TODO: Handle missing values, outliers, etc.
+def clean_data(df: pd.DataFrame):
+    # TODO: Handle missing values, outliers, etc.
+    # Convertir la columna StartTime en formato datetime
+    df["StartTime"] = pd.to_datetime(df["StartTime"], format="%Y-%m-%dT%H:%M%zZ")
+    
+    # Eliminar la columna EndTime
+    df = df.drop("EndTime", axis=1)
 
-#     return df_clean
+    # Reemplazar los valores faltantes por la media entre los valores anteriores y posteriores
+    df = df.interpolate()
+    print(df)
+    # Agrupar el dataframe por las columnas StartTime, AreaID, UnitName y PsrType, y sumar las columnas quantity y Load
+    df = df.groupby(["StartTime", "AreaID", "UnitName", "PsrType"])[["quantity", "Load"]].sum()
+    print(df)
+    # Desapilar el dataframe para convertir el índice jerárquico en columnas
+    df = df.unstack(level=["AreaID", "UnitName", "PsrType"])
+    print(df)
+    # Reagrupar el dataframe por horas, y sumar las columnas quantity y Load
+    df = df.resample('1H').sum()
+    print(df)
+    # Restablecer el índice jerárquico
+    df = df.reset_index()
+    df_clean = df
+    return df_clean
+
 
 # def preprocess_data(df):
 #     # TODO: Generate new features, transform existing features, resampling, etc.
@@ -49,7 +70,8 @@ def parse_arguments():
 def main(input_file, output_file):
     df = load_data(input_file)
     print(df)
-    # df_clean = clean_data(df)
+    df_clean = clean_data(df)
+    print(df_clean)
     # df_processed = preprocess_data(df_clean)
     # save_data(df_processed, output_file)
 
