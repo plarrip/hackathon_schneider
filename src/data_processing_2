@@ -1,0 +1,74 @@
+from data_processing import load_data
+from datetime import datetime
+import pandas as pd
+import json
+
+df = load_data('../data')
+#mapping AreaID values to their meaning
+#load the dictionary
+AreaID_dict = "../data/AreaID_dict.json"
+with open(AreaID_dict, 'r') as file:
+    AreaID_dict = json.load(file)
+
+#mapping the df\
+df2 = df.copy()
+df2['AreaID'] = df2['AreaID'] f.map(AreaID_dict)
+
+# Assuming df is your DataFrame
+df2['Country'] = df2['AreaID'].str.extract(r'\\((.*?)\\)')
+# Drop the original 'AreaID' column
+df2.drop('AreaID', axis=1, inplace=True)
+#dropping 'UnitName' as it's useless and rearranging the columns\
+df3 = df2[['StartTime','EndTime','Country','PsrType','Load','quantity']]
+
+#Replace NaN values with 0\
+df3[['Load', 'PsrType', 'quantity']] = df3[['Load', 'PsrType', 'quantity']].fillna(0)
+
+#Filtering by green_energy PsrType
+df3 = df3[df3['PsrType'].isin(["B01", "B09", "B10", "B11", "B12","B13", "B15", "B16", "B18", "B19", 0])]
+df3.drop('PsrType', axis=1, inplace=True)
+#WORKING ON TIME COLUMNS 
+#in order to do so we will separate Load and quantity into different dataframes (we'll rejoin them later)
+dfLoad = df3[['StartTime','EndTime','Country','Load']].groupby(['StartTime','EndTime','Country']).sum().reset_index()
+dfQuantity = df3[['StartTime','EndTime','Country','quantity']].groupby(['StartTime','EndTime','Country']).sum().reset_index()
+
+
+
+#function to simplify code
+def hourly_arrange(df0, metric):
+    # Convert to datetime
+    df0["StartTime"] = pd.to_datetime(df0["StartTime"], format="%Y-%m-%dT%H:%M%zZ")
+    df0["EndTime"] = pd.to_datetime(df0["EndTime"], format="%Y-%m-%dT%H:%M%zZ")
+
+    # Set the index to 'StartTime' or 'EndTime'
+    df0.set_index('StartTime', inplace=True)
+
+    # Create a new DataFrame for each Country to work the time rows separately and avoid the interpolate() function mix btween Countries\
+    grouped = df0.groupby('Country')
+
+    # Resample and interpolate\
+    resampled_dfs = []
+    for name, group in grouped:
+        # Resample to hourly frequency, interpolate, and sum Load values\
+        resampled_df = group.resample('H').sum().interpolate()
+        
+        # Add the 'Country' information back to the resampled DataFrame\
+        resampled_df['Country'] = name
+        
+        resampled_dfs.append(resampled_df)
+
+    # Concatenate the resampled DataFrames\
+    df0= pd.concat(resampled_dfs).reset_index()
+
+    return df0
+#applying the function to dfLoad and dfQuantity\
+dfLoad = hourly_arrange(dfLoad, 'Load')
+dfQuantity = hourly_arrange(dfQuantity, 'quantity')
+#merging dfLoad and dfQuantity dataframes\
+df4 = pd.merge(dfLoad, dfQuantity, on=['StartTime', 'Country'], how='outer')
+df4.fillna(0, inplace=True)
+#rearranging and renaming columns\
+df4 = df4[['StartTime','Country','Load','quantity']]
+df4.rename(columns={'Load':'load'}, inplace=True)
+dfLoad.info()
+dfQuantity.info()
