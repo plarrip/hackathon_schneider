@@ -26,11 +26,11 @@ def clean_data(df: pd.DataFrame):
     print(df)
     # df.sort_values(by=['StartTime'], inplace=True)
     # Crear una máscara que sea True cuando load sea nan
-    mask = df['Load'].isna()
-    
+    mask_load = df['Load'].isna()
+    mask_quantity = df['quantity'].isna()
     # Interpolar solo las filas que coincidan con la máscara
-    df['quantity'] = df['quantity'].where(mask).interpolate(method='linear')
-    df['quantity'].replace(0, None, inplace=True)
+    df['quantity'] = df['quantity'].where(mask_load).interpolate(method='linear')
+    df['quantity'] = df['quantity'].where(mask_quantity).interpolate(method='linear')
 
     # Filtrar por los tipos de energía verde
     df = df[df['PsrType'].isin(["B01", "B09", "B10", "B11", "B12","B13", "B15", "B16", "B18", "B19", 0])]
