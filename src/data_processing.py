@@ -2,19 +2,43 @@ import argparse
 import pandas as pd
 import glob
 import os
-
 def load_data(file_path):
     # TODO: Load data from CSV file
     
     files = [os.path.join(f"./{file_path}", file) for file in os.listdir(f"{file_path}") if file.startswith("gen_") or file.startswith("load_")]
 
-    files_df = pd.DataFrame()
+    gen_dfs = []
+    load_dfs = []
 
     for file in files:
         df = pd.read_csv(file, sep=",")
-        files_df = pd.concat([files_df, df], ignore_index=True)
+        
+        # Extracting country and eType from the filename
+        country = os.path.splitext(os.path.basename(file))[0].split('_')[1]
+        
+        # Adding 'Country' columns to the DataFrame
+        df['Country'] = country
 
-    return files_df
+        # Separating DataFrames based on the file prefix
+        if "gen_" in file:
+            gen_dfs.append(df)
+        elif "load_" in file:
+            load_dfs.append(df)
+
+    return gen_dfs, load_dfs
+
+# def load_data_2(file_path):
+    
+#     files = [os.path.join(f"./{file_path}", file) for file in os.listdir(f"{file_path}") if file.startswith("gen_") or file.startswith("load_")]
+
+#     files_df = pd.DataFrame()
+
+#     for file in files:
+#         df = pd.read_csv(file, sep=",")
+#         files_df = pd.concat([files_df, df], ignore_index=True)
+
+#     return files_df
+
 
 def clean_data(df: pd.DataFrame):
 
