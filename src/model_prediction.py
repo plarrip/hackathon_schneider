@@ -7,27 +7,29 @@ from joblib import load
 
 
 def load_data(file_path)-> pd.DataFrame:
+    """Load test data from CSV file"""
     # TODO: Load test data from CSV file
     df = pd.read_csv(file_path)
     df = df.drop(columns=['y'])
     return df
 
 def load_model(model_path) -> DecisionTreeClassifier:
+    """Load trained model"""
     # TODO: Load the trained model
     model = load(model_path)
     return model
 
 def make_predictions(df, model: DecisionTreeClassifier) -> list[dict[str, int]]:
+    """Make predictions on test data"""
     # TODO: Use the model to make predictions on the test data
     predictions = model.predict(df)
-    
-    predictions_dict = {}
     
     predictions_dict = {f"{i}": int(p) for i, p in enumerate(predictions)}
     
     return predictions_dict
 
 def save_predictions(predictions, predictions_file):
+    """Save predictions to a JSON file"""
     # TODO: Save predictions to a JSON file
     with open(predictions_file, 'w') as f:
         json.dump(predictions, f)

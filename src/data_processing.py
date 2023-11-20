@@ -1,11 +1,18 @@
 import argparse
 import pandas as pd
 import os
-import pandas as pd
 import json
 
 
-def load_data(file_path):
+def load_data(file_path: str)-> (list[pd.DataFrame], list[pd.DataFrame]):
+    """
+
+    Args:
+        file_path (str)
+
+    Returns:
+        tuple(list[pd.DataFrame], list[pd.DataFrame])
+    """
     # TODO: Load data from CSV file
 
     files = [os.path.join(f"./{file_path}", file) for file in os.listdir(
@@ -32,7 +39,16 @@ def load_data(file_path):
     return gen_dfs, load_dfs
 
 
-def clean_data(gen_dfs: list[pd.DataFrame], load_dfs: list[pd.DataFrame]):
+def clean_data(gen_dfs: list[pd.DataFrame], load_dfs: list[pd.DataFrame]) -> pd.DataFrame:
+    """
+
+    Args:
+        gen_dfs (list[pd.DataFrame])
+        load_dfs (list[pd.DataFrame])
+
+    Returns:
+        pd.DataFrame
+    """
     # TODO: Handle missing values, outliers, etc.
 
     # process Gen dataframes
@@ -134,7 +150,15 @@ def clean_data(gen_dfs: list[pd.DataFrame], load_dfs: list[pd.DataFrame]):
     return df_clean
 
 
-def preprocess_data(df3: pd.DataFrame):
+def preprocess_data(df3: pd.DataFrame) -> pd.DataFrame:
+    """
+
+    Args:
+        df3 (pd.DataFrame)
+
+    Returns:
+        pd.DataFrame
+    """
     # TODO: Generate new features, transform existing features, resampling, etc.
 
     df3 = df3[['StartTime'] +
@@ -188,7 +212,13 @@ def preprocess_data(df3: pd.DataFrame):
     return df_processed
 
 
-def save_data(df_processed: pd.DataFrame, output_file):
+def save_data(df_processed: pd.DataFrame, output_file: str) -> None:
+    """
+
+    Args:
+        df_processed (pd.DataFrame)
+        output_file (str)
+    """
     # TODO: Save processed data to a CSV file
     # Ordenar el dataframe por la fecha de creación
     df_processed.sort_values(by=['year', 'month', 'day', 'hour'], inplace=True)
@@ -209,7 +239,7 @@ def save_data(df_processed: pd.DataFrame, output_file):
     return
 
 
-def parse_arguments():
+def parse_arguments() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description='Data processing script for Energy Forecasting Hackathon')
     parser.add_argument(
