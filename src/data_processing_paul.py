@@ -155,7 +155,7 @@ def preprocess_data(df3):
 
     #mapping the country in column 'y' to numeric
     # Load the country list from the JSON file
-    with open('../data/country_list.json', 'r') as file:
+    with open('./data/country_list.json', 'r') as file:
         country_mapping = json.load(file)
 
     df5['y'] = df5['y'].map(country_mapping)
@@ -172,14 +172,15 @@ def save_data(df_processed: pd.DataFrame, output_file):
     n_rows = len(df_processed)
     n_train = int(n_rows * 0.8)
 
-    # Dividir el dataframe en train y test
-    df_train = df_processed.iloc[:n_train]
-    df_test = df_processed.iloc[n_train:]
+    # Dividir el dataframe en train y test  
+    df_train = df_processed.iloc[:n_train].reset_index()
+    df_test = df_processed.iloc[n_train:].reset_index()
+    df_full = df_processed.copy().reset_index()
 
     # Guardar los dataframes en archivos CSV
-    df_train.to_csv(output_file + '_train.csv', index=False)
-    df_test.to_csv(output_file + '_test.csv', index=False)
-    df_full.to_csv(output_file + '_full.csv', index=False)  #file used to explore the dataset graphically. Refer to 'data_exploration.ipynb'.
+    df_train.to_csv(output_file + 'train.csv', index=False)
+    df_test.to_csv(output_file + 'test.csv', index=False)
+    df_full.to_csv(output_file + 'full.csv', index=False)  #file used to explore the dataset graphically. Refer to 'data_exploration.ipynb'.
     pass
 
 def parse_arguments():
