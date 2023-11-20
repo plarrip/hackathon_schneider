@@ -27,18 +27,18 @@ def load_data(file_path):
 
     return gen_dfs, load_dfs
 
-def load_data_2(file_path):
-    # TODO: Load data from CSV file
+# def load_data_2(file_path):
     
-    files = [os.path.join(f"./{file_path}", file) for file in os.listdir(f"{file_path}") if file.startswith("gen_") or file.startswith("load_")]
+#     files = [os.path.join(f"./{file_path}", file) for file in os.listdir(f"{file_path}") if file.startswith("gen_") or file.startswith("load_")]
 
-    files_df = pd.DataFrame()
+#     files_df = pd.DataFrame()
 
-    for file in files:
-        df = pd.read_csv(file, sep=",")
-        files_df = pd.concat([files_df, df], ignore_index=True)
+#     for file in files:
+#         df = pd.read_csv(file, sep=",")
+#         files_df = pd.concat([files_df, df], ignore_index=True)
 
-    return files_df
+#     return files_df
+
 
 def clean_data(df: pd.DataFrame):
 
