@@ -49,6 +49,13 @@ The model folder contains the following files:
 - `model.pkl`: A pickle file that contains the model that we used for the project, trained with the data from ENTSOE API.
 - NOTE: We used [sklearn](http://scikit-learn.org) as our maching learning model for this project.
 
+
+#### MODEL EVALUATION
+
+- `F1-score macro`: 0.9714693295292439
+- `Precision macro`: 0.9714693295292439
+- `Recall micro`: 0.9714693295292439
+
 ### PREDICTIONS FOLDER
 
 The predictions folder contains the following files:
