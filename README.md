@@ -5,7 +5,7 @@
 
 ## Predicting green energies generation in Europe with ENTSOE data.
 
-In this project, we participate in Schneider Electric's renewable energy prediction challenge, which consists of predicting which country in Europe will generate the most renewable energy in the next hour, using data from the ENTSOE (European Network of Transmission System Operators for Electricity) API. ). The API provides real-time and historical data on the generation and consumption of different types of energy in European countries. Our goal is to develop a machine learning model that can leverage this data to make accurate and reliable predictions. Those countries and their respective IDs are:
+In this project, we participate in Schneider Electric's renewable energy prediction challenge, which consists of predicting which country in Europe will generate the most renewable energy in the next hour, using data from the ENTSOE (European Network of Transmission System Operators for Electricity) API. The API provides real-time and historical data on the generation and consumption of different types of energy in European countries. Our goal is to develop a machine learning model that can leverage this data to make accurate and reliable predictions. Those countries and their respective IDs are:
 
 ```json
 {
