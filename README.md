@@ -21,7 +21,7 @@ In this project, we participate in Schneider Electric's renewable energy predict
 }
 ```
 
-This project aims to predict which country will generate the most renewable energy in the next hour, using data from [ENTSOE API](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html#_psrtype) and machine learning techniques. In this case we used a date range from 2022/01/01 to 2023/01/01. We splitted the data, 80% of the total to train and the rest to rest.
+This project aims to predict which country will generate the most renewable energy in the next hour, using data from [ENTSOE API](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html#_psrtype) and machine learning techniques. In this case we used a date range from 2022/01/01 to 2023/01/01. We splitted the data, 80% of the total to train and the rest to test.
 
 ### DATA FOLDER
 
