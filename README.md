@@ -7,17 +7,6 @@
 
 In this project, we participate in Schneider Electric's renewable energy prediction challenge, which consists of predicting which country in Europe will generate the most renewable energy in the next hour, using data from the ENTSOE (European Network of Transmission System Operators for Electricity) API. The API provides real-time and historical data on the generation and consumption of different types of energy in European countries. Our goal is to develop a machine learning model that can leverage this data to make accurate and reliable predictions. Those countries and their respective IDs are:
 
-<<<<<<< HEAD
-    3.3. Data processing: reformat the dataset to our needs
-    
-    - Give AreaID column country name
-    - Replace nulls with the mean between the preceding and following values. 
-    - Identify what energy types each column represent, and discard the ones that are not green energy source. 
-    - Normalise all energy values are in the same units (MAW)
-    - Calculate surplus column
-    - Adapt the structure of the dataset to the following schema: one column for each energy type and load (consumption) for each country + an additional column for the label: the ID of the country with the bigger surplus of green energy for the next hour. The final dataset should have 2210 rows. 
-    - Split the data into training (save it in train.csv) and test (save it in test.csv). For the latter we delete the label column. The test set should have 442 rows. 
-=======
 ```json
 {
     "SP": 0, #Spain
@@ -31,9 +20,8 @@ In this project, we participate in Schneider Electric's renewable energy predict
     "NL": 8  #Netherlands
 }
 ```
->>>>>>> ec6412bd69e9336a39cfd0d0468af46c9a38b84a
 
-This project aims to predict which country will generate the most renewable energy in the next hour, using data from [ENTSOE API](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html#_psrtype) and machine learning techniques. In this case we used a date range from 2022/01/01 to 2023/01/01. We splitted the data, 80% of the total to train and the rest to rest.
+This project aims to predict which country will generate the most renewable energy in the next hour, using data from [ENTSOE API](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html#_psrtype) and machine learning techniques. In this case we used a date range from 2022/01/01 to 2023/01/01. We splitted the data, 80% of the total to train and the rest to test.
 
 ### DATA FOLDER
 
