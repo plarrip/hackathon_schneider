@@ -1,3 +1,2 @@
-data/*.csv
 venv
 src/__pycache__
